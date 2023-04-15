@@ -15,19 +15,19 @@ opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization e
 
 Use any of the below options :
 
-# for macOS, Linux or Windows Git Bash
+**for macOS, Linux or Windows Git Bash**
 
 export NODE_OPTIONS=--openssl-legacy-provider
 
-# for Windows CMD (Command Prompt)
+**for Windows CMD (Command Prompt)**
 
 set NODE_OPTIONS=--openssl-legacy-provider
 
-# for Windows PowerShell
+**for Windows PowerShell**
 
 $env:NODE_OPTIONS="--openssl-legacy-provider"
 
-# for Docker (in your Dockerfile)
+**for Docker (in your Dockerfile)**
 
 ENV NODE_OPTIONS="--openssl-legacy-provider"
 
