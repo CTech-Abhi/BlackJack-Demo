@@ -10,6 +10,9 @@ Abhishek Singhal
    * run command : npm run serve
    * browser game : open "localhost:8080" on your preferred browaser
 
+** TEST **
+run command :  npm test
+
 In case you see below error ( on serve command )
 opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
 
