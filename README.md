@@ -6,9 +6,9 @@ Its a demo for H5 game development using PIXI.JS
 Abhishek Singhal
 
 **Installation**
-run command : npm install or npm i
-run command : npm run serve
-browser game : open "localhost:8080" on your preferred browaser
+   * run command : npm install or npm i
+   * run command : npm run serve
+   * browser game : open "localhost:8080" on your preferred browaser
 
 In case you see below error ( on serve command )
 opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
