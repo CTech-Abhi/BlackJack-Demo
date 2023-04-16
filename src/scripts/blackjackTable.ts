@@ -92,6 +92,7 @@ export class BlackjackTable extends PIXI.Container {
     this._startBtn.cursor = "pointer";
 
     this._startBtn.on("pointerdown", () => {
+      this.showStartButton(false);
       if (this._dealerCards.length > 0) {
         this.clearTable();
         gsap.delayedCall(0.5, this.startNewGame.bind(this));
@@ -225,18 +226,21 @@ export class BlackjackTable extends PIXI.Container {
 
     if (dealerCardCount <= 21 && dealerCardCount > playerCardCount) {
       this._resultText.text = " DEALER   Won  !! ";
-      this.showStartButton();
+      this.showHitStandCommands(false);
+      gsap.delayedCall(0.5, this.showStartButton.bind(this));
     } else if (dealerCardCount > 21) {
       this._resultText.text = " PLAYER   Won  !! ";
       this._model.addWins(this._roundBet * 2);
       this.updateBalanceMeter();
-      this.showStartButton();
+      this.showHitStandCommands(false);
+      gsap.delayedCall(0.5, this.showStartButton.bind(this));
     } else {
       this.playDealerHitSequence();
     }
   }
 
   private dealCardToPlayer() {
+    this.showHitStandCommands(false);
     const card = this._deck.drawCard();
     this._playerCards.push(card);
     gsap.to(card, {
@@ -299,21 +303,35 @@ export class BlackjackTable extends PIXI.Container {
     }
     this._dealerCards[0].revealCard();
     let playerCardCount = this.checkCardResult(this._playerCards);
-    // console.log("Player total    :::::    ", playerCardCount);
     if (playerCardCount < 21) {
-      this.showAddBetButton();
-      this.showHitStandCommands();
+      gsap.delayedCall(0.5, () => {
+        this.showAddBetButton();
+        this.showHitStandCommands();
+      });
     } else {
-      this._resultText.text = " PLAYER   BUSTED  !! ";
-      if (playerCardCount == 21 && this._playerCards.length == 2) {
-        this._resultText.text = " PLAYER   WON  !! ";
-        this._model.addWins(this._roundBet * 2);
-        this.updateBalanceMeter();
+      if (playerCardCount == 21) {
+        if (this._playerCards.length == 2) {
+          this._resultText.text = " PLAYER   WON  !! ";
+          this._model.addWins(this._roundBet * 2);
+          this.updateBalanceMeter();
+          gsap.delayedCall(0.5, this.showStartButton.bind(this));
+        } else {
+          gsap.delayedCall(0.5, () => {
+            this.showAddBetButton();
+            this.showHitStandCommands();
+          });
+        }
+      } else {
+        this._resultText.text = " PLAYER   BUSTED  !! ";
+        this.updateControlOnGameEnd();
       }
-      this.showStartButton();
-      this.showAddBetButton(false);
-      this.showHitStandCommands(false);
     }
+  }
+
+  private updateControlOnGameEnd() {
+    this.showStartButton();
+    this.showAddBetButton(false);
+    this.showHitStandCommands(false);
   }
 
   private checkCardResult(cards: Card[]) {
